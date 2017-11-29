@@ -256,7 +256,7 @@ public class RibbonLoadBalancingHttpClientTests {
 		doReturn(uriRequest).when(request).toRequest(any(RequestConfig.class));
 		RibbonApacheHttpResponse returnedResponse = client.execute(request, null);
 		verify(delegate, times(2)).execute(any(HttpUriRequest.class));
-		verify(lb, times(0)).chooseServer(eq(serviceName));
+		verify(lb, times(1)).chooseServer(eq(serviceName));
 	}
 
 	@Test
@@ -290,7 +290,7 @@ public class RibbonLoadBalancingHttpClientTests {
 		doReturn(uriRequest).when(request).toRequest(any(RequestConfig.class));
 		RibbonApacheHttpResponse returnedResponse = client.execute(request, null);
 		verify(delegate, times(3)).execute(any(HttpUriRequest.class));
-		verify(lb, times(1)).chooseServer(eq(serviceName));
+		verify(lb, times(2)).chooseServer(eq(serviceName));
 		assertEquals(2, myBackOffPolicyFactory.getCount());
 	}
 
@@ -325,7 +325,7 @@ public class RibbonLoadBalancingHttpClientTests {
 		RibbonApacheHttpResponse returnedResponse = client.execute(request, null);
 		verify(response, times(0)).close();
 		verify(delegate, times(3)).execute(any(HttpUriRequest.class));
-		verify(lb, times(1)).chooseServer(eq(serviceName));
+		verify(lb, times(2)).chooseServer(eq(serviceName));
 		assertEquals(2, myBackOffPolicyFactory.getCount());
 	}
 
@@ -360,7 +360,7 @@ public class RibbonLoadBalancingHttpClientTests {
 		} catch(IOException e) {} finally {
 			verify(response, times(0)).close();
 			verify(delegate, times(1)).execute(any(HttpUriRequest.class));
-			verify(lb, times(0)).chooseServer(eq(serviceName));
+			verify(lb, times(1)).chooseServer(eq(serviceName));
 		}
 	}
 
@@ -399,7 +399,7 @@ public class RibbonLoadBalancingHttpClientTests {
 		RibbonApacheHttpResponse returnedResponse = client.execute(request, null);
 		verify(fourOFourResponse, times(1)).close();
 		verify(delegate, times(2)).execute(any(HttpUriRequest.class));
-		verify(lb, times(0)).chooseServer(eq(serviceName));
+		verify(lb, times(1)).chooseServer(eq(serviceName));
 		assertEquals(1, myBackOffPolicyFactory.getCount());
 	}
 

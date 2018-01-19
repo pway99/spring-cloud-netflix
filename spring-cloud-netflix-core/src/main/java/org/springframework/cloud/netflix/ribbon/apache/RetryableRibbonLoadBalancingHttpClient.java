@@ -42,6 +42,8 @@ import org.springframework.retry.backoff.BackOffPolicy;
 import org.springframework.retry.backoff.NoBackOffPolicy;
 import org.springframework.retry.policy.NeverRetryPolicy;
 import org.springframework.retry.support.RetryTemplate;
+
+import com.netflix.client.ClientRequest;
 import com.netflix.client.RequestSpecificRetryHandler;
 import com.netflix.client.RetryHandler;
 import com.netflix.client.config.CommonClientConfigKey;
@@ -99,6 +101,11 @@ public class RetryableRibbonLoadBalancingHttpClient extends RibbonLoadBalancingH
 		this.loadBalancedRetryPolicyFactory = loadBalancedRetryPolicyFactory;
 		this.loadBalancedBackOffPolicyFactory = loadBalancedBackOffPolicyFactory;
 		this.loadBalancedRetryListenerFactory = loadBalancedRetryListenerFactory;
+	}
+	
+	@Override
+	public boolean isRetryable(ClientRequest request) {
+		return request!= null && request.isRetriable();
 	}
 
 	@Override

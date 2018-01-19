@@ -23,6 +23,7 @@ import org.springframework.cloud.netflix.ribbon.RibbonClientConfiguration;
 import org.springframework.cloud.netflix.ribbon.ServerIntrospector;
 
 import com.netflix.client.AbstractLoadBalancerAwareClient;
+import com.netflix.client.ClientRequest;
 import com.netflix.client.IResponse;
 import com.netflix.client.RequestSpecificRetryHandler;
 import com.netflix.client.RetryHandler;
@@ -50,6 +51,8 @@ public abstract class AbstractLoadBalancingClient<S extends ContextAwareRequest,
 	protected final D delegate;
 	protected final IClientConfig config;
 	protected final ServerIntrospector serverIntrospector;
+	
+	public boolean isRetryable(ClientRequest request) {return false;}
 
 	@Deprecated
 	public AbstractLoadBalancingClient() {

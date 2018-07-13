@@ -72,7 +72,9 @@ import com.netflix.client.config.DefaultClientConfigImpl;
 import com.netflix.client.config.IClientConfig;
 import com.netflix.loadbalancer.AbstractLoadBalancer;
 import com.netflix.loadbalancer.ILoadBalancer;
+import com.netflix.loadbalancer.LoadBalancerStats;
 import com.netflix.loadbalancer.Server;
+import com.netflix.loadbalancer.ServerStats;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.CoreMatchers.containsString;
@@ -106,6 +108,7 @@ public class RibbonLoadBalancingHttpClientTests {
 		loadBalancer = mock(AbstractLoadBalancer.class);
 		doReturn(new Server("foo.com", 8000)).when(loadBalancer).chooseServer(eq("default"));
 		doReturn(new Server("foo.com", 8000)).when(loadBalancer).chooseServer(eq("service"));
+		doReturn(new LoadBalancerStats("foo")).when((AbstractLoadBalancer)loadBalancer).getLoadBalancerStats();
 	}
 
 	@After
